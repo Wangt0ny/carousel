@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Carousel</title>
+</head>
+<body>
+    
+    <section>
+        <div class="carousel" data-carousel>
+            <button class="carousel-btn prev" data-carousel-button="prev">&#8656;</button>
+            <button class="carousel-btn next" data-carousel-button="next">&#8658;</button>
+        
+            <ul data-slides>
+                <li class="slide" data-active>
+                    <img src="../img01.jpg" alt="">
+                </li>
+                <li class="slide">
+                    <img src="../img02.jpg" alt="">
+                </li>
+                <li class="slide">
+                    <img src="../img03.jpg" alt="">
+                </li>
+            </ul>
+        </div>
+    </section>
+
+
+    <script>
+
+        const buttons = document.querySelectorAll("[data-carousel-button]");
+        console.log(buttons)
+
+        buttons.forEach(btn => {
+            console.log(btn);
+            btn.addEventListener("click", () => {
+                const offset = btn.dataset.carouselButton === "next" ? 1 : -1;
+                console.log("offset : " + offset);// -1 || 1
+
+                const slides = 
+                btn.closest("[data-carousel]")
+                .querySelector("[data-slides]");
+                console.log(slides);//選取最近的父階物件
+
+                const activeSlide = slides.querySelector("[data-active]");
+                console.log(activeSlide);//選取父階內[data-active]屬性li元素
+
+                let newIndex = [...slides.children].indexOf(activeSlide) + offset;
+                console.log([[...slides.children].indexOf(activeSlide)])
+                console.log("newIndex bef if : " + newIndex);
+                
+                //[0, 1, 2]循環IF
+                if (newIndex < 0) {newIndex = slides.children.length - 1};//2
+                if (newIndex >= slides.children.length) {newIndex = 0};
+
+                slides.children[newIndex].dataset.active = true;
+                delete activeSlide.dataset.active;
+                console.log("newIndex : " + newIndex);
+            })
+        })
+    </script>
+</body>
+</html>
